@@ -1,0 +1,21 @@
+package com.bridgelabz.userapis.loginregistration.database;
+
+import com.bridgelabz.userapis.loginregistration.model.Users;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+public interface IUserDao {
+
+	boolean insertIntoUserApiTable(Users userInfo);
+
+	boolean updateUserApiTable();
+
+	boolean deleteRecordsInUserApiTable();
+
+	JsonArray getAll();
+
+	JsonObject getUserByName(String mail);
+	
+	
+
+}

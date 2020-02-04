@@ -1,0 +1,5 @@
+INDEX VERSION 1.131
+/home/bridgelabz/new Workspace/eclipse-workspace/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/3550374851.index
+/loginregistration/src/main/java
+/home/bridgelabz/new Workspace/eclipse-workspace/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/2522318255.index
+/loginregistration/src/main/java

@@ -1,0 +1,21 @@
+html,body{
+	background: linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%);
+}
+.form-design{
+	padding: 20px 20px;	
+}
+.container{
+	margin-top: 2%;
+	background-color: transparent;
+	/* border: 1px solid #888888; */
+	box-shadow: 5px 10px 15px 5px #888888;
+}
+
+.container.register-label{
+	margin-top: 2%;
+	background: none;
+	border: none;
+	border-bottom: 1px solid #888888;
+	box-shadow: none;
+	color: #fff;
+}
