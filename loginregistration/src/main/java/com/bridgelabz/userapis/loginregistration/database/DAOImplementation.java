@@ -5,10 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.bridgelabz.userapis.loginregistration.model.Users;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -98,6 +97,38 @@ public class DAOImplementation implements IUserDao
 			return userArrayData;
 		}
 		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public String getUserByName(String mail) 
+	{
+		Users userDetails = new Users();
+		String query = "SELECT * FROM users_api WHERE email = ?";
+		try(PreparedStatement preparedStatementMail = connection.prepareStatement(query)) 
+		{
+			preparedStatementMail.setString(1, mail);
+			ResultSet resultset = preparedStatementMail.executeQuery();
+			if(resultset.next())
+			{
+				userDetails.setFirstname(resultset.getString(2));
+				userDetails.setLastname(resultset.getString(3));
+				userDetails.setUsername(resultset.getString(4));
+				userDetails.setCity(resultset.getString(5));
+				userDetails.setState(resultset.getString(6));
+				userDetails.setZip(resultset.getString(7));
+				userDetails.setEmail(resultset.getString(8));
+				userDetails.setPassword(resultset.getString(9));
+				
+				Gson gson = new Gson();
+				
+				return gson.toJson(userDetails);
+			}
+		} 
+		catch (Exception e) 
 		{
 			e.printStackTrace();
 		}
