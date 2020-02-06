@@ -1,0 +1,27 @@
+package com.bridgelabz.userapis.loginregistration.model;
+
+import lombok.Data;
+
+/**
+ * 
+ * @author Bikash Mohanty
+ * @since 25th jan 2020
+ * @version 1.0
+ * 
+ * purpose: Model Class for Users
+ *
+ */
+@Data
+
+public class Users 
+{
+	private String firstname;
+	private String lastname;
+	private String username;
+	private String password;
+	private String email;
+	private String city;
+	private String state;
+	private String zip;
+	
+}

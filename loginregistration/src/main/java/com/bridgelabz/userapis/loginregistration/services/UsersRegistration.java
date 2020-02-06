@@ -60,7 +60,7 @@ public class UsersRegistration
 	@POST
 	@Path("/addUsers")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML}) //will produce JSON type
-//	@Produces("text/html")
+	//	@Produces("text/html")
 	public Response registerUser(
 			@FormParam("fname") String firstname,
 			@FormParam("lname") String lastname,
@@ -87,15 +87,15 @@ public class UsersRegistration
 		if(daoObj.insertIntoUserApiTable(userInfo))
 		{
 			System.out.println("Successfully Inserted");
-//			String output = "<font face='verdana' size='2'>" +
-//	                "Web Service has added your Customer information with Name - <u>"+firstname+"</u>, Country - <u>"+state+"</u></font>";
-//	        return Response.status(200).entity(output).build();
+			//			String output = "<font face='verdana' size='2'>" +
+			//	                "Web Service has added your Customer information with Name - <u>"+firstname+"</u>, Country - <u>"+state+"</u></font>";
+			//	        return Response.status(200).entity(output).build();
 		}
 		usersList.add(userInfo);	
 		return Response.status(200).entity(usersList).build();
 	}
-	
-	
+
+
 	/**
 	 * @return List as String type, That produces JSON type object
 	 * 
@@ -112,8 +112,8 @@ public class UsersRegistration
 		return userList.toString();
 		//new Viewable("/usersData.jsp", userList);
 	}
-	
-	
+
+
 	/**
 	 * 
 	 * @param mail : Type String, taking email as parameter in the URL
@@ -122,16 +122,16 @@ public class UsersRegistration
 	 * 
 	 * @purpose: Takes a mail as parameter and fetch that particular user details from database and return as a JSON String Type 
 	 */
-	
+
 	@GET
-    @Path("{mail}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public String getUsers(@PathParam("mail") String mail) throws JsonbException
+	@Path("{mail}")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public String getUsers(@PathParam("mail") String mail) throws JsonbException
 	{ 
-        return daoObj.getUserByName(mail);
-    }
-	
-	
+		return daoObj.getUserByName(mail);
+	}
+
+
 	/**
 	 * 
 	 * @param mail String type
@@ -140,7 +140,7 @@ public class UsersRegistration
 	 * 
 	 * @purpose: Taking User's email as parameter and update user's record accordingly
 	 */
-	
+
 	@PUT
 	@Path("/update-user/{mail}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -149,7 +149,7 @@ public class UsersRegistration
 	{
 		return daoObj.updateUsersByMail(mail, users);
 	}
-	
+
 	/**
 	 * 
 	 * @param mail String type
@@ -157,7 +157,7 @@ public class UsersRegistration
 	 * 
 	 * @purpose: Taking user mail as parameter and process the DELETE request for that particular email.
 	 */
-	
+
 	@DELETE
 	@Path("/delete-user/{mail}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -166,5 +166,5 @@ public class UsersRegistration
 	{
 		return daoObj.deleteUser(mail);
 	}
-	
+
 }

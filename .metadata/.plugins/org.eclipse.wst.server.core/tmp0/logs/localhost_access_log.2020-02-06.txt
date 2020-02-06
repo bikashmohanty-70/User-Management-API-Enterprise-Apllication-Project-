@@ -1,0 +1,2 @@
+127.0.0.1 - - [06/Feb/2020:17:20:36 +0530] "GET / HTTP/1.1" 404 709
+0:0:0:0:0:0:0:1 - - [06/Feb/2020:17:20:52 +0530] "POST /loginregistration/webapi/usersRegistration/addUsers HTTP/1.1" 200 105
