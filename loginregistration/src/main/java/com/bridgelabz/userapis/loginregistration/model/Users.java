@@ -1,5 +1,7 @@
 package com.bridgelabz.userapis.loginregistration.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import lombok.Data;
 
 /**
@@ -12,7 +14,7 @@ import lombok.Data;
  *
  */
 @Data
-
+@XmlRootElement
 public class Users 
 {
 	private String firstname;
