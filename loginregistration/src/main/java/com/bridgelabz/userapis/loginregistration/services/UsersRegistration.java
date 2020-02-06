@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.json.bind.JsonbException;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -18,7 +21,6 @@ import com.bridgelabz.userapis.loginregistration.database.DatabaseConnectivity;
 import com.bridgelabz.userapis.loginregistration.database.IUserDao;
 import com.bridgelabz.userapis.loginregistration.model.Users;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 /**
  * 
@@ -26,7 +28,7 @@ import com.google.gson.JsonObject;
  * @since 25th jan 2020
  * @version 1.0
  * 
- * purpose:
+ * @purpose: CRUD operation using JERSEY framework and MAVEN
  *
  */
 
@@ -40,10 +42,24 @@ public class UsersRegistration
 	DatabaseConnectivity dtabaseConnectivity = new DatabaseConnectivity();
 	IUserDao daoObj = new DAOImplementation();
 
+	/**
+	 * 
+	 * @param firstname : Taking Plain text from JSP page TextBox
+	 * @param lastname	:			-do-
+	 * @param username	:			-do-
+	 * @param password	:			-do-
+	 * @param email		:			-do-
+	 * @param city		:			-do-
+	 * @param state		:			-do-
+	 * @param zip		:			-do-
+	 * @return Response as List type
+	 * 
+	 * @Purpose: Taking User Input from GUI and stores in Database
+	 */
 
 	@POST
 	@Path("/addUsers")
-	@Produces({MediaType.APPLICATION_JSON}) //will produce JSON type
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML}) //will produce JSON type
 //	@Produces("text/html")
 	public Response registerUser(
 			@FormParam("fname") String firstname,
@@ -78,10 +94,17 @@ public class UsersRegistration
 		usersList.add(userInfo);	
 		return Response.status(200).entity(usersList).build();
 	}
+	
+	
+	/**
+	 * @return List as String type, That produces JSON type object
+	 * 
+	 * @purpose: Fetch all data if the URL is hit 
+	 */
 
 	@GET
 	@Path("/getAll")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public String indexes() 
 	{
 		JsonArray userList = daoObj.getAll();
@@ -90,12 +113,58 @@ public class UsersRegistration
 		//new Viewable("/usersData.jsp", userList);
 	}
 	
+	
+	/**
+	 * 
+	 * @param mail : Type String, taking email as parameter in the URL
+	 * @return	String Type
+	 * @throws JsonbException : JSON Bind Exception
+	 * 
+	 * @purpose: Takes a mail as parameter and fetch that particular user details from database and return as a JSON String Type 
+	 */
+	
 	@GET
     @Path("{mail}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getCustomer(@PathParam("mail") String mail) throws JsonbException
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public String getUsers(@PathParam("mail") String mail) throws JsonbException
 	{ 
         return daoObj.getUserByName(mail);
     }
+	
+	
+	/**
+	 * 
+	 * @param mail String type
+	 * @param users object of Users Model class
+	 * @return String type Object and produces JSON type
+	 * 
+	 * @purpose: Taking User's email as parameter and update user's record accordingly
+	 */
+	
+	@PUT
+	@Path("/update-user/{mail}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public String updateUsers(@PathParam("mail") String mail, Users users)
+	{
+		return daoObj.updateUsersByMail(mail, users);
+	}
+	
+	/**
+	 * 
+	 * @param mail String type
+	 * @return String type and produces Message in PLAIN TEXT
+	 * 
+	 * @purpose: Taking user mail as parameter and process the DELETE request for that particular email.
+	 */
+	
+	@DELETE
+	@Path("/delete-user/{mail}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String deleteUsers(@PathParam("mail") String mail)
+	{
+		return daoObj.deleteUser(mail);
+	}
 	
 }
