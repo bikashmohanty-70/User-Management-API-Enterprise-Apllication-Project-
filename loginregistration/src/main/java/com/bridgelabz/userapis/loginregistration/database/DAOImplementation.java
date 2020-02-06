@@ -15,9 +15,7 @@ import com.google.gson.JsonObject;
  * 
  * @author Bikash Mohanty
  * @since 25Th Jan 2020
- * @version 1.0
- * 
- * Purpose: 
+ * @version 1.0 
  *
  */
 public class DAOImplementation implements IUserDao 
@@ -51,29 +49,13 @@ public class DAOImplementation implements IUserDao
 		catch (SQLException e) 
 		{
 			e.printStackTrace();
-		}
-		
-		
-		return false;
-	}
-	
-	@Override
-	public boolean updateUserApiTable()
-	{
-		return false;
-	}
-	
-	@Override
-	public boolean deleteRecordsInUserApiTable()
-	{
+		}	
 		return false;
 	}
 
 	@Override
 	public JsonArray getAll() 
 	{
-		
-
 		String userList = "select * from users_api";
 		try(PreparedStatement preparedStatement = connection.prepareStatement(userList))
 		{
@@ -129,6 +111,56 @@ public class DAOImplementation implements IUserDao
 			}
 		} 
 		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public String updateUsersByMail(String mail, Users user) 
+	{
+		String updateQuery = "UPDATE users_api SET firstname = ?, lastname = ?, username = ?, city = ?,"
+				+ "state = ?, zip = ?, email = ?, password = ? WHERE email = '"+mail+"'";
+		
+		try(PreparedStatement preparedStatementUpdate = connection.prepareStatement(updateQuery)) 
+		{
+			
+			preparedStatementUpdate.setString(1, user.getFirstname());
+			preparedStatementUpdate.setString(2, user.getLastname());
+			preparedStatementUpdate.setString(3, user.getUsername());
+			preparedStatementUpdate.setString(4, user.getCity());
+			preparedStatementUpdate.setString(5, user.getState());
+			preparedStatementUpdate.setString(6, user.getZip());
+			preparedStatementUpdate.setString(7, user.getEmail());
+			preparedStatementUpdate.setString(8, user.getPassword());
+			
+			int result = preparedStatementUpdate.executeUpdate();
+			if(result > 0)
+				return "User Updated Successfully";
+			else
+				return "Internal Error While Updating record";
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public String deleteUser(String mail) 
+	{
+		String deleteQuery = "DELETE FROM users_api WHERE email = '"+mail+"'";
+		try(PreparedStatement preparedStatementDelete = connection.prepareStatement(deleteQuery)) 
+		{
+			int deleteResult = preparedStatementDelete.executeUpdate();
+			if(deleteResult > 0)
+				return "User Deleted Successfully...";
+			else
+				return "Error While Deleting Record...";
+		} 
+		catch (SQLException e) 
 		{
 			e.printStackTrace();
 		}
