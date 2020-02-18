@@ -54,11 +54,9 @@ import com.bridgelabz.usermanagementapi.model.User;
 
 @Stateless
 
-public class UserController
-{
+public class UserController {
 
-	public UserController() 
-	{
+	public UserController() {
 		// constructor
 	}
 
@@ -68,59 +66,56 @@ public class UserController
 	 * implementing such logic, such as transactions, injecting of the entity
 	 * manager (used for JPA, the Java Persistence API) and pooling of beans.
 	 * 
-	 * @GET: 	HTTP GET. Use GET requests to retrieve resource
-	 * 			representation/information only – and not to modify it in any way.
+	 * @GET: HTTP GET. Use GET requests to retrieve resource
+	 * representation/information only – and not to modify it in any way.
 	 * 
-	 * @POST: 	The POST method is used to request that the origin server accept the
-	 * 			entity enclosed in the request as a new subordinate of the resource
-	 * 			identified by the Request-URI in the Request-Line.
+	 * @POST: The POST method is used to request that the origin server accept the
+	 * entity enclosed in the request as a new subordinate of the resource
+	 * identified by the Request-URI in the Request-Line.
 	 * 
-	 * @Consumes: 	The @Consumes annotation is used to specify which MIME media types
-	 * 				of representations a resource can accept, or consume, from the client.
+	 * @Consumes: The @Consumes annotation is used to specify which MIME media types
+	 * of representations a resource can accept, or consume, from the client.
 	 * 
-	 * @Produces: 	The @Produces annotation is used to specify the MIME media types
-	 * 				or representations a resource can produce and send back to the client.
+	 * @Produces: The @Produces annotation is used to specify the MIME media types
+	 * or representations a resource can produce and send back to the client.
 	 */
 	@EJB
 	private IServiceBeanImplementationbusinesslogic serviceInterf; // private Remote Bean Implementation. See ReadMe.txt
-																   // for more details.
-	
+																	// for more details.
+
 	/**
 	 * Returns a plain text about the status of user record.
 	 * 
 	 * @param user is the model class object which accepts the data in JSON format.
 	 * @return status of the insertion of record.
 	 */
-	@POST	
-	@Consumes(MediaType.APPLICATION_JSON)	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	
-	public String saveUser(User user) 
-	{
+
+	public String saveUser(User user) {
 		return serviceInterf.addUser(user);
 	}
-	
+
 	/**
 	 * Fetch all user's record and Return all the available users in the database to
 	 * the client in JSONARRAY format.
 	 * 
 	 * @return list of the Users as a JSONARRAY object
 	 */
-	
+
 	@GET
 	@Path("/getAll")
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONArray getAllUsers()
-	{
+	public JSONArray getAllUsers() {
 		JSONArray userJSONArrayObj = new JSONArray();
 		List<?> usersList = serviceInterf.getTableData();
-		for(Object users : usersList)
-		{
+		for (Object users : usersList) {
 			userJSONArrayObj.add(users);
 		}
 		return userJSONArrayObj;
 	}
-	
+
 	/**
 	 * getUser() will get user data from table given that email passed from the url
 	 * must be present in database
@@ -128,16 +123,14 @@ public class UserController
 	 * @param mail String type
 	 * @return user Object in JSONOBJECT FORMAT
 	 */
-	
+
 	@GET
 	@Path("/getUser")
 	@Produces(MediaType.APPLICATION_JSON)
-	public User getUser(@QueryParam("email") String mail)
-	{
-		return serviceInterf.getUserData(mail);		
+	public User getUser(@QueryParam("email") String mail) {
+		return serviceInterf.getUserData(mail);
 	}
-	
-	
+
 	/**
 	 * The following method is responsible for deleting a User Record from the
 	 * database by their id.
@@ -145,53 +138,44 @@ public class UserController
 	 * @param id is of type "int", which accepts the value from the URI.
 	 * @return the status of the user record in a string.
 	 */
-	
-	@DELETE	// Indicates that the annotated method responds to HTTP DELETE requests.
+
+	@DELETE // Indicates that the annotated method responds to HTTP DELETE requests.
 	@Path("/deleteUser")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String deleteUser(@QueryParam("id") int id)
-	{
-		return serviceInterf.deleteUser(id);	
+	public String deleteUser(@QueryParam("id") int id) {
+		return serviceInterf.deleteUser(id);
 	}
-	
+
 	/**
 	 * The following method is responsible for updating user's record according to
 	 * the ID provided by the CLIENT
 	 * 
 	 * @param id        "Int" type QueryParam which is the condition for updating
 	 *                  record.
-	 * @param firstname
-	 * @param lastname
-	 * @param username
-	 * @param mail
-	 * @param pwd
-	 * @param dob
-	 * @param gender
-	 * @param city
-	 * @param state
-	 * @param country
-	 * @param pin
-	 * @param number
-	 * @return
+	 * @param firstname "Takes data as x-www-form-urlencoded from user/client"
+	 * @param lastname  "-do-"
+	 * @param username  "-do-"
+	 * @param mail      "-do-"
+	 * @param pwd       "-do-"
+	 * @param dob       "-do-"
+	 * @param gender    "-do-"
+	 * @param city      "-do-"
+	 * @param state     "-do-"
+	 * @param country   "-do-"
+	 * @param pin       "-do-"
+	 * @param number    "-do-"
+	 * @return => Status of the Query in String Format whether the provided
+	 *         credentials are processed successfully or not
 	 */
-	
+
 	@PUT
 	@Path("/updateUser")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String updateUser(@QueryParam("id") int id, 
-			@FormParam ("fname") String firstname,
-			@FormParam ("lname") String lastname,
-			@FormParam ("uname") String username,
-			@FormParam ("email") String mail,
-			@FormParam ("password") String pwd,
-			@FormParam ("dob") String dob,
-			@FormParam ("gender") String gender,
-			@FormParam ("city") String city,
-			@FormParam ("state") String state,
-			@FormParam ("country") String country,
-			@FormParam ("pincode") String pin,
-			@FormParam ("contact") long number)
-	{
+	public String updateUser(@QueryParam("id") int id, @FormParam("fname") String firstname,
+			@FormParam("lname") String lastname, @FormParam("uname") String username, @FormParam("email") String mail,
+			@FormParam("password") String pwd, @FormParam("dob") String dob, @FormParam("gender") String gender,
+			@FormParam("city") String city, @FormParam("state") String state, @FormParam("country") String country,
+			@FormParam("pincode") String pin, @FormParam("contact") long number) {
 		User upUser = new User();
 		upUser.setFirstname(firstname);
 		upUser.setLastname(lastname);
@@ -205,32 +189,30 @@ public class UserController
 		upUser.setCountry(country);
 		upUser.setPincode(pin);
 		upUser.setContact(number);
-		
+
 		return serviceInterf.updateUser(id, upUser);
 	}
-	
+
 	/**
-	 * The Following Method is Responsible for fetching all user records gender wise.
+	 * The Following Method is Responsible for fetching all user records gender
+	 * wise.
 	 * 
 	 * @param gender String Type, which must be passed throug the URI
 	 * @return List of JSONObjects having User's Data
 	 */
-	
+
 	@GET
 	@Path("getUser/genderWise")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<?> getUsersByGender(@QueryParam("gender") String gender)
-	{
+	public List<?> getUsersByGender(@QueryParam("gender") String gender) {
 		return serviceInterf.getUsersByGender(gender);
-		
+
 	}
-	
+
 	@GET
 	@Path("/byAge")
 	@Produces(MediaType.APPLICATION_JSON)
-	public User getUsersListByAge()
-	{
+	public User getUsersListByAge() {
 		return serviceInterf.getUsersListByAge();
 	}
 }
-
